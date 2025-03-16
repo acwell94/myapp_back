@@ -8,8 +8,8 @@ const { generateAccessToken, generateRefreshToken } = require("../utils/jwt");
 const bcrypt = require("bcryptjs");
 
 const test = async (req, res) => {
-  console.log(req);
-  return res.json({ hi: "hihi" });
+  console.log(req.newAccessToken, "kk");
+  return res.json({ hi: req.newAccessToken });
 };
 
 // 이메일 관련

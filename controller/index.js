@@ -1,3 +1,3 @@
 const userController = require("./user-controller");
-
-module.exports = { userController };
+const favoriteController = require("./favorite-controller");
+module.exports = { userController, favoriteController };

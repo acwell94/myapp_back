@@ -13,6 +13,7 @@ const verifyToken = async (req, res, next) => {
 
   jwt.verify(token, secret, async (err, decoded) => {
     if (err && err.name === "TokenExpiredError") {
+      console.log("실행");
       if (!refreshToken)
         return res.status(401).json({ message: "refresh token이 필요합니다." });
       try {
@@ -28,13 +29,13 @@ const verifyToken = async (req, res, next) => {
               .json({ message: "refresh token이 만료되었습니다." });
           const newAccessToken = jwt.sign(
             { userId: user.id, email: user.email },
-            process.env.JWT_SECRET,
+            secret,
             {
               expiresIn: "15m",
             }
           );
-          res.setHeader("Authorization", `Bearer ${newAccessToken}`); // 새 토큰 응답 헤더에 추가
           req.user = decodedRefresh;
+          req.newAccessToken = newAccessToken;
           next();
         });
       } catch (err) {
